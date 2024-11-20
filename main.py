@@ -124,10 +124,10 @@ while count_three_point_ship != 0:
             useful_points2.append((ship_row2 - 1, ship_column2))
             useful_points2.append((ship_row1 + 1, ship_column1))
 
-    if useful_points2[0] not in taken_place:
+    if useful_points2[0] not in taken_place and useful_points2[0][0] > 0 and useful_points2[0][1] > 0:
         ship_row3 = useful_points2[0][0]
         ship_column3 = useful_points2[0][1]
-    elif useful_points2[1] not in taken_place:
+    elif useful_points2[1] not in taken_place and useful_points2[1][0] > 0 and useful_points2[1][1] > 0:
         ship_row3 = useful_points2[1][0]
         ship_column3 = useful_points2[1][1]
     else:
