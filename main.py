@@ -1,21 +1,20 @@
 from random import randint
+from os import system
 
-place = [0] * 7
-taken_place = []
-count_one_point_ship = 4
-count_two_point_ship = 2
-count_three_point_ship = 1
+def gameplay():
+    score = 0
+    place = [0] * 7
+    visible_place = [0] * 7
+    taken_place = []
+    count_one_point_ship = 4
+    count_two_point_ship = 2
+    count_three_point_ship = 1
 
-for i in range(len(place)):
-    place[i] = ["[0]"] * 7
+    for i in range(len(place)):
+        place[i] = ["[0]"] * 7
+        visible_place[i] = ["*"] * 7
 
-def generation_of_ships():
-    global place
-    global taken_place
-    global count_one_point_ship
-    global count_two_point_ship
-    global count_three_point_ship
-
+    #generation one point ships
     while count_one_point_ship != 0:
         checker = 1
         ship_row = randint(0, 6)
@@ -38,6 +37,7 @@ def generation_of_ships():
             taken_place.append([ship_row + 1, ship_column + 1])
             count_one_point_ship -= 1
 
+    #generation two points ships
     while count_two_point_ship != 0:
         checker_second_point = 1
         checker = 1
@@ -90,7 +90,7 @@ def generation_of_ships():
 
             count_two_point_ship -= 1
 
-
+    #generation three points ship
     while count_three_point_ship != 0:
         checker_second_point = 1
         checker = 1
@@ -157,10 +157,17 @@ def generation_of_ships():
 
             count_three_point_ship -= 1
 
-generation_of_ships()
+    while True:
+        for i in range(len(visible_place)):
+            result = ""
+            for f in range(7):
+                result += visible_place[i][f]
+            print(result)
 
-for i in range(len(place)):
-    result = ""
-    for f in range(7):
-        result += place[i][f]
-    print(result)
+        coordinates = input().split()
+        a = int(coordinates[0])
+        b = int(coordinates[1])
+
+        visible_place[a][b] = "m"
+
+gameplay()
