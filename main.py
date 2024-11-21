@@ -1,7 +1,12 @@
 from random import randint
-from os import system
+import os
+
+name_list = []
+score_list ={}
+limiter = 40
 
 def gameplay():
+    global limiter
     score = 0
     place = [0] * 7
     visible_place = [0] * 7
@@ -10,9 +15,10 @@ def gameplay():
     count_two_point_ship = 2
     count_three_point_ship = 1
 
+    #generation of place
     for i in range(len(place)):
         place[i] = ["[0]"] * 7
-        visible_place[i] = ["*"] * 7
+        visible_place[i] = ["[*]"] * 7
 
     #generation one point ships
     while count_one_point_ship != 0:
@@ -104,8 +110,6 @@ def gameplay():
         ]
         ship_row2 = randint(0, 6)
         ship_column2 = randint(0, 6)
-        ship_row3 = 0
-        ship_column3 = 0
 
         while checker_second_point != 0:
             if (ship_row2, ship_column2) in useful_points1:
@@ -157,6 +161,10 @@ def gameplay():
 
             count_three_point_ship -= 1
 
+    used_points = []
+    coordinates_three_points_ship = []
+
+    #game process
     while True:
         for i in range(len(visible_place)):
             result = ""
@@ -164,10 +172,57 @@ def gameplay():
                 result += visible_place[i][f]
             print(result)
 
-        coordinates = input().split()
-        a = int(coordinates[0])
-        b = int(coordinates[1])
+        coordinates = input()
 
-        visible_place[a][b] = "m"
+        if len(coordinates) != 3:
+            os.system("cls")
+            print("Please enter coordinates right")
+            continue
+        
+        a = int(coordinates[0]) - 1
+        b = int(coordinates[1]) - 1
 
-gameplay()
+        if (a, b) in used_points:
+            os.system("cls")
+            print("You also attacked this coordinates")
+            continue
+
+        if place[a][b] == "[0]":
+            visible_place[a][b] = "[m]"
+        elif place[a][b] == "[1]":
+            visible_place[a][b] = "[d]"
+        elif place[a][b] == "[2]":
+            if visible_place[a - 1][b] == "[h]":
+                visible_place[a][b] = "[d]"
+                visible_place[a - 1][b] = "[d]"
+            elif visible_place[a + 1][b] == "[h]":
+                visible_place[a][b] = "[d]"
+                visible_place[a + 1][b] = "[d]"
+            elif visible_place[a][b - 1] == "[h]":
+                visible_place[a][b] = "[d]"
+                visible_place[a][b - 1] = "[d]"
+            elif visible_place[a][b + 1] == "[h]":
+                visible_place[a][b] = "[d]"
+                visible_place[a][b + 1] = "[d]"
+            else:
+                visible_place[a][b] = "[h]"
+        elif place[a][b] == "[3]":
+            if len(coordinates_three_points_ship) != 2:
+                visible_place[a][b] = "[h]"
+                coordinates_three_points_ship.append((a, b))
+            else:
+                visible_place[a][b] = "[d]"
+                visible_place[coordinates_three_points_ship[0][0]][coordinates_three_points_ship[0][1]] = "[d]"
+                visible_place[coordinates_three_points_ship[1][0]][coordinates_three_points_ship[1][1]] = "[d]"
+
+
+        score += 1
+        used_points.append((a, b))
+        os.system("cls")
+
+        if score >= limiter:
+            break
+
+    return score
+
+print(gameplay())
