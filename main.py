@@ -1,8 +1,7 @@
 from random import randint
 import os
 
-name_list = []
-score_list ={}
+score_list = {}
 limiter = 40
 
 def gameplay():
@@ -185,8 +184,8 @@ def gameplay():
     used_points = []
     coordinates_three_points_ship = []
 
-    for i in range(7):
-        print(place[i])
+    #for i in range(7):
+    #    print(place[i])
 
     #game process
     while True:
@@ -274,4 +273,26 @@ def gameplay():
 
     return score
 
-print(gameplay())
+while True:
+    name = input("Enter your name:")
+    os.system("cls")
+    score = gameplay()
+    score_list[name] = score
+    answer = None
+    if score == 40:
+        print("You lost, you will try again?")
+        answer = input("Yes or No:")
+    else:
+        print("You wined! You will play again?")
+        answer = input("Yes or No:")
+    os.system("cls")
+    while answer != "Yes" and answer != "No":
+        answer = input("Please, enter correct Yes or No:")
+    os.system("cls")
+    if answer == "No":
+        break
+
+sorted_score_list = sorted(score_list.items(), key=lambda item: item[1])
+
+for i in range(len(sorted_score_list)):
+    print(str(i) + ")", sorted_score_list[i][0] + ": " + str(sorted_score_list[i][1]))
