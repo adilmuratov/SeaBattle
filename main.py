@@ -189,8 +189,9 @@ def gameplay():
 
     #game process
     while True:
+        print("  1  2  3  4  5  6  7")
         for i in range(len(visible_place)):
-            result = ""
+            result = str(i + 1) + " "
             for f in range(7):
                 result += visible_place[i][f]
             print(result)
