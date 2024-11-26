@@ -296,4 +296,4 @@ while True:
 sorted_score_list = sorted(score_list.items(), key=lambda item: item[1])
 
 for i in range(len(sorted_score_list)):
-    print(str(i) + ")", sorted_score_list[i][0] + ": " + str(sorted_score_list[i][1]))
+    print(str(i + 1) + ")", sorted_score_list[i][0] + ": " + str(sorted_score_list[i][1]))
